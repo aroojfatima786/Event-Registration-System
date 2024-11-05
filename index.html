@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Event Registration</h1>
+        <h2>Select an Event</h2>
+        <form id="registration-form">
+            <select id="event-select" required>
+                <option value="">Select an Event</option>
+                <option value="Wedding Celebration">Wedding Celebration</option>
+                <option value="Birthday Party">Birthday Party</option>
+                <option value="Anniversary Celebration">Anniversary Celebration</option>
+                <option value="Baby Shower">Baby Shower</option>
+                <option value="Housewarming Party">Housewarming Party</option>
+            </select>
+            
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('registration-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const registrationData = {
+                event: document.getElementById('event-select').value,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value
+            };
+
+            const response = await fetch('/api/registrations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registrationData)
+            });
+
+            if (response.ok) {
+                alert('Registration successful!');
+                document.getElementById('registration-form').reset();
+            } else {
+                alert('Error registering for the event');
+            }
+        });
+    </script>
+</body>
+</html>
